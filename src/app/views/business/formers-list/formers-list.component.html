@@ -1,0 +1,567 @@
+<div *ngIf="showviewfarmer">
+  <div>
+    <mat-form-field class="half-width" appearance="outline">
+      <mat-label>Districts</mat-label>
+      <!-- <input
+              matInput
+              formControlName="username"
+              type="text"
+              name="username"
+              placeholder="Username"
+            /> -->
+      <mat-select>
+        <mat-option
+          *ngFor="let item of districts"
+          (click)="searchdistrict(item.distId)"
+          [value]="item.distId"
+          >{{ item.districtName }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <button
+      (click)="serach()"
+      mat-raised-button
+      color="primary"
+      class="btn ml-3"
+    >
+      Search
+    </button>
+    <button (click)="All()" mat-raised-button color="accent" class="btn ml-3">
+      All
+    </button>
+  </div>
+  <div class="mat-elevation-z8">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Sno</th>
+            <!-- <th>Certificates</th> -->
+            <th>Founded Year</th>
+            <th>Land Area</th>
+            <th>Land Usage</th>
+            <th>Town</th>
+            <th>PostCode</th>
+            <th>Moblie Number</th>
+            <th>Capitals</th>
+            <th>District</th>
+            <th>PlantingMethod</th>
+            <th>State</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="!show">
+          <tr *ngFor="let item of formerslist; let i = index">
+            <td>{{ i + 1 }}</td>
+            <!-- <td>
+                                    <img [src]="item.certificates[0].certificate" height="40" width="40">
+                               </td> -->
+            <td>{{ item.foundedYear }}</td>
+            <td>{{ item.landArea }}</td>
+            <td>{{ item.landUsage }}</td>
+            <td>{{ item.town }}</td>
+            <td>{{ item.postCode }}</td>
+            <td>{{ item.userId }}</td>
+            <td>{{ item.captialTypeId }}</td>
+            <td>{{ item.districtId }}</td>
+            <td>{{ item.plantingId }}</td>
+            <td>{{ item.stateId }}</td>
+            <td>
+              <mat-icon class="notapproved" *ngIf="item.status === '0'"
+                >highlight_off</mat-icon
+              >
+              <mat-icon class="approved" *ngIf="item.status === '1'"
+                >check_circle</mat-icon
+              >
+              <!-- <span *ngIf="item.userApproveInfo.approveStatus === '0'">Not-Approved</span>
+                                    <span *ngIf="item.userApproveInfo.approveStatus === '1'">Approved</span> -->
+            </td>
+            <td>
+              <mat-icon class="view" (click)="viewfarmerdetails(item)"
+                >visibility</mat-icon
+              >
+              <!-- <button class="btn btn-xs btn-warning" (click)="edit(item)">Edit</button> -->
+            </td>
+          </tr>
+        </tbody>
+
+        <tbody *ngIf="show">
+          <tr *ngFor="let item of formers; let i = index">
+            <td>{{ i + 1 }}</td>
+            <!-- <td>
+                                    <img [src]="item.certificates[0].certificate" height="40" width="40">
+                               </td> -->
+            <td>{{ item.foundedYear }}</td>
+            <td>{{ item.landArea }}</td>
+            <td>{{ item.landUsage }}</td>
+            <td>{{ item.town }}</td>
+            <td>{{ item.postCode }}</td>
+            <td>{{ item.userId }}</td>
+            <td>{{ item.capital.capitalType }}</td>
+            <td>{{ item.district.districtName }}</td>
+            <td>{{ item.plantingMethod.plantingMethod }}</td>
+            <td>{{ item.state.state }}</td>
+            <td>
+              <mat-icon
+                class="notapproved"
+                *ngIf="item.userApproveInfo.approveStatus === '0'"
+                >highlight_off</mat-icon
+              >
+              <mat-icon
+                class="approved"
+                *ngIf="item.userApproveInfo.approveStatus === '1'"
+                >check_circle</mat-icon
+              >
+              <!-- <span *ngIf="item.userApproveInfo.approveStatus === '0'">Not-Approved</span>
+                                    <span *ngIf="item.userApproveInfo.approveStatus === '1'">highlight_off</span> -->
+            </td>
+            <td>
+              <mat-icon class="view" (click)="viewfarmerdetails(item)"
+                >visibility</mat-icon
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="show" class="text-center">
+      <span *ngIf="formers.length < 1">NO Data Found</span>
+    </div>
+  </div>
+</div>
+
+<!-- farmers single list -->
+
+<div *ngIf="!showviewfarmer">
+  <!-- <table>
+        <tr *ngFor="let item of singlrfarmerdata.result?.personalInfo">
+            <th>foundedYear</th>
+            <td>{{item.email}}</td>
+            <th>landArea</th>
+            <td>{{item.occupation}}</td>
+            <th>landUsage</th>
+            <td>{{item.sex}}</td>
+        </tr>
+    </table> -->
+
+  <div class="edit-user-section">
+    <div class="card">
+      <div class="card-body">
+        <!-- [formGroup]="bookingEditForm" -->
+        <div class="buttons">
+          <button (click)="back()" mat-raised-button color="primary">
+            Back
+          </button>
+          <h1 class="text-danger text-center peronalinfo">PERSONAL INFO</h1>
+          <!-- <img class="image" src="../../../../assets/images/user.jpg"> -->
+
+          <button 
+            color="primary" class="mat-raised-button mat-button-base approve_btn"
+            [ngClass]="{ approvebutton: approvestatus === '0' }"
+            (click)="approved()"
+            [disabled]="personalInfo.approveStatus === '1'"
+          >
+            {{personalInfo.approveStatus == '1' ? 'Approved' : 'Approve'}}
+          </button>
+        </div>
+
+        <div class="personal-info">
+          <div class="row personalmargin">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="user-image">
+                    <img class="image" src="assets/images/user.png" />
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="user-details">
+                    <p>
+                      <span>Name&nbsp;:</span>&nbsp;&nbsp;{{
+                        personalInfo.name
+                      }}
+                    </p>
+                    <p>
+                      <span>Phone No&nbsp;:</span>&nbsp;&nbsp;{{
+                        personalInfo.phoneNo
+                      }}
+                    </p>
+                    <p>
+                      <span>E-Mail&nbsp;:</span>&nbsp;&nbsp;{{
+                        personalInfo.email
+                      }}
+                    </p>
+                    <p>
+                      <span>Occupation&nbsp;:</span>&nbsp;&nbsp;{{
+                        personalInfo.occupation
+                      }}
+                    </p>
+                    <p>
+                      <span>IC Passport No&nbsp;:</span>&nbsp;&nbsp;{{
+                        personalInfo.icPassportNo
+                      }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="user-details">
+                    <p>
+                      <span>Education&nbsp;:</span>&nbsp;&nbsp;{{
+                        personalInfo.educationId
+                      }}
+                    </p>
+                    <p>
+                      <span>Gender&nbsp;:</span>&nbsp;&nbsp;{{
+                        personalInfo.genderId
+                      }}
+                    </p>
+                    <p>
+                      <span>Town&nbsp;:</span>&nbsp;&nbsp;{{
+                        personalInfo.town
+                      }}
+                    </p>
+                    <p>
+                      <span>District&nbsp;:</span>&nbsp;&nbsp;{{
+                        personalInfo.districtId
+                      }}
+                    </p>
+                    <p>
+                      <span>State&nbsp;:</span>&nbsp;&nbsp;{{
+                        personalInfo.stateId
+                      }}
+                    </p>
+                    <p class="sign">
+                      <span>E&nbsp;-&nbsp;Signature&nbsp;:</span
+                      >&nbsp;&nbsp;&nbsp;<img
+                        class="signature"
+                        src="{{ personalInfo.eSignature }}"
+                      />
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-md-3">
+                <div class="fields">
+                  <div class="label-field">
+                    <label for="">Name:</label>
+                  </div>
+                  <div class="input-field">
+                    <p>{{item.name}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="fields">
+                    <div class="label-field">
+                      <label for="">PhoneNo:</label>
+                    </div>
+                    <div class="input-field">
+                      <p>{{item.phoneNo}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="fields">
+                    <div class="label-field">
+                      <label for="">Email</label>
+                    </div>
+                    <div class="input-field">
+                      <p>{{item.email}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="fields">
+                    <div class="label-field">
+                      <label for="">Occupation:</label>
+                    </div>
+                    <div class="input-field">
+                      <p>{{item.occupation}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="fields">
+                    <div class="label-field">
+                      <label for="">Education:</label>
+                    </div>
+                    <div class="input-field">
+                      <p>{{item.education.education}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="fields">
+                    <div class="label-field">
+                      <label for="">Gender</label>
+                    </div>
+                    <div class="input-field">
+                      <p>{{item.gender.sex}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="fields">
+                    <div class="label-field">
+                      <label for="">District</label>
+                    </div>
+                    <div class="input-field">
+                      <p>{{item.district.districtName}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="fields">
+                    <div class="label-field">
+                      <label for="">State</label>
+                    </div>
+                    <div class="input-field">
+                      <p>{{item.state.state}}</p>
+                    </div>
+                  </div>
+                </div> -->
+          </div>
+        </div>
+
+        <h1 class="text-danger text-center p-2">FARMER INFO</h1>
+
+        <div class="personal-info">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="user-image1">
+                    <img [src]="farmerData.certificate" class="image" />
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="user-details">
+                    <p>
+                      <span>Founded Year&nbsp;:</span>&nbsp;&nbsp;{{
+                        farmerData.foundedYear
+                      }}
+                    </p>
+                    <p>
+                      <span>Land Area</span>&nbsp;&nbsp;{{
+                        farmerData.landArea
+                      }}
+                    </p>
+                    <p>
+                      <span>Land Usage&nbsp;:</span>&nbsp;&nbsp;{{
+                        farmerData.landUsage
+                      }}
+                    </p>
+                    <p>
+                      <span>Town&nbsp;:</span>&nbsp;&nbsp;{{ farmerData.town }}
+                    </p>
+                    <p>
+                      <span>Machinery&nbsp;:</span>&nbsp;&nbsp;{{
+                        farmerData.machinery
+                      }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="user-details">
+                    <p>
+                      <span>Postal Code&nbsp;:</span>&nbsp;&nbsp;{{
+                        farmerData.postCode
+                      }}
+                    </p>
+                    <p>
+                      <span>Capital Type&nbsp;:</span>&nbsp;&nbsp;{{
+                        farmerData.captialTypeId
+                      }}
+                    </p>
+                    <p>
+                      <span>District&nbsp;:</span>&nbsp;&nbsp;{{
+                        farmerData.districtId
+                      }}
+                    </p>
+                    <p>
+                      <span>State&nbsp;:</span>&nbsp;&nbsp;{{
+                        farmerData.stateId
+                      }}
+                    </p>
+                    <p>
+                      <span>Planting Method&nbsp;:</span>&nbsp;&nbsp;{{
+                        farmerData.plantingId
+                      }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="col-md-3">
+                  <div class="fields">  
+                    <div class="label-field">
+                      <label for="">Founded Year:</label>
+                    </div>
+                    <div class="input-field">
+                      <p>{{item.foundedYear}}</p>
+                    </div>
+                  </div>
+                </div> -->
+            <!-- <div class="col-md-3">
+                    <div class="fields">
+                      <div class="label-field">
+                        <label for="">LandArea:</label>
+                      </div>
+                      <div class="input-field">
+                        <p>{{item.landArea}}</p>
+                      </div>
+                    </div>
+                  </div> -->
+            <!-- <div class="col-md-3">
+                    <div class="fields">
+                      <div class="label-field">
+                        <label for="">LandUsage</label>
+                      </div>
+                      <div class="input-field">
+                        <p>{{item.landUsage}}</p>
+                      </div>
+                    </div>
+                  </div> -->
+            <!-- <div class="col-md-3">
+                    <div class="fields">
+                      <div class="label-field">
+                        <label for="">Town:</label>
+                      </div>
+                      <div class="input-field">
+                        <p>{{item.town}}</p>
+                      </div>
+                    </div>
+                  </div> -->
+            <!-- <div class="col-md-3">
+                    <div class="fields">
+                      <div class="label-field">
+                        <label for="">PostCode:</label>
+                      </div>
+                      <div class="input-field">
+                        <p>{{item.postCode}}</p>
+                      </div>
+                    </div>
+                  </div> -->
+            <!-- <div class="col-md-3">
+                    <div class="fields">
+                      <div class="label-field">
+                        <label for="">Capital Type</label>
+                      </div>
+                      <div class="input-field">
+                        <p>{{item.capital.capitalType}}</p>
+                      </div>
+                    </div>
+                  </div> -->
+            <!-- <div class="col-md-3">
+                    <div class="fields">
+                      <div class="label-field">
+                        <label for="">District</label>
+                      </div>
+                      <div class="input-field">
+                        <p>{{item.district.districtName}}</p>
+                      </div>
+                    </div>
+                  </div> -->
+            <!-- <div class="col-md-3">
+                    <div class="fields">
+                      <div class="label-field">
+                        <label for="">State</label>
+                      </div>
+                      <div class="input-field">
+                        <p>{{item.state.state}}</p>
+                      </div>
+                    </div>
+                  </div> -->
+          </div>
+        </div>
+
+        <h1 class="text-danger text-center p-2">BUSINESS INFO</h1>
+        <div class="personal-info">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="user-details">
+                    <p>
+                      <span>Legal Name&nbsp;:</span>&nbsp;&nbsp;{{
+                        businessInfo.legalName
+                      }}
+                    </p>
+                    <p>
+                      <span>Registration Number&nbsp;:</span>&nbsp;&nbsp;{{
+                        businessInfo.registerationNum
+                      }}
+                    </p>
+                    <p>
+                      <span>Postal Code&nbsp;:</span>&nbsp;&nbsp;{{
+                        businessInfo.postCode
+                      }}
+                    </p>
+                    <p>
+                      <span>Town&nbsp;:</span>&nbsp;&nbsp;{{
+                        businessInfo.town
+                      }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="user-details"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="col-md-3">
+                  <div class="fields">  
+                    <div class="label-field">
+                      <label for="">LegalName:</label>
+                    </div>
+                    <div class="input-field">
+                      <p>{{item.legalName}}</p>
+                    </div>
+                  </div>
+                </div> -->
+            <!-- <div class="col-md-3">
+                    <div class="fields">
+                      <div class="label-field">
+                        <label for="">Registeration Num:</label>
+                      </div>
+                      <div class="input-field">
+                        <p>{{item.registerationNum}}</p>
+                      </div>
+                    </div>
+                  </div> -->
+            <!-- <div class="col-md-3">
+                    <div class="fields">
+                      <div class="label-field">
+                        <label for="">postCode:</label>
+                      </div>
+                      <div class="input-field">
+                        <p>{{item.postCode}}</p>
+                      </div>
+                    </div>
+                  </div> -->
+            <!-- <div class="col-md-3">
+                    <div class="fields">
+                      <div class="label-field">
+                        <label for="">Town:</label>
+                      </div>
+                      <div class="input-field">
+                        <p>{{item.town}}</p>
+                      </div>
+                    </div>
+                  </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

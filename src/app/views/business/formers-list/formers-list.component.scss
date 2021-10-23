@@ -1,0 +1,158 @@
+.table thead th{
+    text-align: center !important;
+    vertical-align: top !important;
+}
+th, td{
+    font-size: 12px !important;
+}
+.edit-user-section {
+    .card {
+        border: 2px solid black;
+        border-radius: 12px;
+        .card-body {
+            
+                .fields {
+                  border-right: 1px solid #dee2e6;
+                  height: 51px;
+                  margin-top: 1px;
+                  padding: 0px 26px;
+                  margin: 9px 0px;
+
+                  label {
+                      color: black;
+                      font-size: 14px;
+                      font-weight: 500;
+                      margin-bottom: 0px;
+                  }
+                  input {
+                      border: 1px solid #fff;
+                      // border: none;
+                      // border-bottom: 1px solid #ccc;
+                      padding: 0px;
+                      font-size: 15px;
+                      
+                      // border-radius: 4px;
+                      // box-shadow: none !important;
+                      // &:hover {
+                      //     box-shadow: none !important;
+                      // }
+                  }
+                  p{
+                      font-size: 12px;
+                  }
+                }
+                .borderrightnone{
+                  border-right: none;
+              }
+            
+        }
+    }
+}
+
+.buttons{
+    display: flex;
+    justify-content: space-between;
+    height: 35px;
+}
+
+.view{
+    cursor: pointer;
+}
+.notapproved{
+    color: red;
+}
+.approved{
+    color: green;
+}
+.image{
+    border-radius: 27px;
+    width: 53px;
+}
+.approvebutton{
+    background: #384c22;
+    color: #fff;
+    border: 1px solid #384c22;
+    cursor: pointer;
+    padding: 5px 15px;
+    border-radius: 5px;
+    height: 40px;
+}
+
+.approvebutton:hover {
+    border: 1px solid #384c22 !important;
+    background-color: #fff !important;
+    color: #000 !important;
+}
+
+.edit-user-section h1 {
+    color: #384c22 !important;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+
+@media(max-width: 480px){
+.peronalinfo{
+    position: absolute;
+    top: 96px;
+}
+.personalmargin{
+    margin-top: 70px;
+}
+
+}
+
+.user-image img {
+    border-radius: 50%;
+     border: none !important;
+    outline: none !important;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    border: 5px solid #FFF;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.2), 0 2px 4px rgba(0,0,0,.2);
+    height: 170px;
+    width: 170px;
+    background: #fff;
+}
+
+.user-details p span {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.personal-info {
+    padding: 20px 15px;
+    border: 1px solid #f4f4f452;
+    border-radius: 5px;
+    margin: 25px 0px;
+    background: #f4f4f452;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.user-image1 img {
+    border-radius: 0;
+    border: none !important;
+    outline: none !important;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    // border: 5px solid #FFF;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.2);
+    height: 170px;
+    width: 170px;
+    background: #fff;
+}
+
+.signature {
+    height: 38px;
+    width: 100%;
+    // margin-top: 15px;
+}
+
+.sign {
+    display: flex;
+}
+
+.approve_btn {
+    background-color: #384c22;
+    color: #fff !important;
+}

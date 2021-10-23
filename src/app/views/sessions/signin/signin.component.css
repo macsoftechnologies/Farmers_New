@@ -1,0 +1,38 @@
+.black {
+    background-color: #384c22 !important;
+    
+}
+
+.mat-card p,h2,label,a,input,button {
+    font-family: 'Mulish', sans-serif !important;
+}
+
+.mat-checkbox-label {
+    font-family: 'Mulish', sans-serif !important;
+}
+
+.logo-name {
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: -10px;
+}
+
+.log-in img {
+    height: 110px !important;
+    /* width: 120px !important; */
+}
+
+.login-btn {
+    background: #ffd672 !important;
+    color: #000 !important;
+    border: 1px solid #ffd672;
+    cursor: pointer !important;
+    padding: 5px;
+}
+
+.login-btn:hover {
+    background: #fff !important;
+    color: #000 !important;
+    border: 1px solid #8cc640;
+}
